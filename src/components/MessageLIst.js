@@ -3,17 +3,17 @@ import React from 'react';
 //  objects simulating data from chatkit
 const DUMMY_DATA = [
     {
-        senderId: 'perborgen',
+        senderId: 'Virgil',
         text: 'Hey, how is it going?'
     },
 
     {
-        senderId: 'janedoe',
+        senderId: 'Homer',
         text: 'Great! How about you?'
     },
 
     {
-        senderId: 'perborgen',
+        senderId: 'Virgil',
         text: 'Good to hear from you!'
     }
 ]
