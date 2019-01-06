@@ -4,17 +4,25 @@ import MessageList from '../src/components/MessageLIst';
 import SendMessageForm from '../src/components/SendMessageForm';
 import NewsRoomForm from '../src/components/NewsRoomForm';
 import RoomList from '../src/components/RoomList';
-import { tokenUlr, instanceLocator } from './config';
+import { tokenUrl, instanceLocator} from './config';
 import './App.css';
 
 class App extends Component {
+
+  constructor(){
+    super()
+    this.state = {
+      // storing messages in state
+      messages: []
+    }
+  }
   
   componentDidMount(){
     const chatManager = new Chatkit.ChatManager({
        instanceLocator, 
        userId: 'Eugene',
        tokenProvider: new Chatkit.TokenProvider({
-         url: tokenUlr
+         url: tokenUrl
        })
     })
 
@@ -23,7 +31,10 @@ class App extends Component {
         roomId: 25025149,
         hooks: {
           onNewMessage:message => {
-             console.log('message.text ', message.text);
+             this.setState ({
+              //  ... expands message array to fit in new array
+               messages: [...this.state.messages, message]
+             })
           }
         }
       })
@@ -33,7 +44,7 @@ class App extends Component {
     return (
       <div className="App">
         <RoomList/>
-        <MessageList/>
+        <MessageList messages={this.state.messages}/>
         <SendMessageForm/>
         <NewsRoomForm/>
       </div>
