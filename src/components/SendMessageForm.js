@@ -39,11 +39,14 @@ class SendMessageForm extends React.Component {
                 onSubmit={this.handleChange.submit}
                 className="send-message-form">
                 <input 
+                    // disabling input field if group not joined
+                    disabled={this.props.diabled}  
                     // onchange event listener, whenever value changes,function specified in onchange is executed
                     onChange={this.handleChange}
                     // setting value of input field
                     value = {this.state.message}
-                    placeholder="Type and Hit ENTER" type="text"/>
+                    placeholder="Type and Hit ENTER" 
+                    type="text"/>
             </form>
         )
     }

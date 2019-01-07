@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Chatkit from '@pusher/chatkit-client';
-import MessageList from '../src/components/MessageLIst';
+import MessageList from './components/MessageList';
 import SendMessageForm from '../src/components/SendMessageForm';
 import NewsRoomForm from '../src/components/NewsRoomForm';
 import RoomList from '../src/components/RoomList';
@@ -26,6 +26,7 @@ class App extends Component {
     this.sendMessage = this.sendMessage.bind(this)
     this.subscribeToRoom = this.subscribeToRoom.bind(this)
     this.getRooms = this.getRooms.bind(this)
+    this.createRoom =this.createRoom.bind(this)
   }
   
   componentDidMount(){
@@ -96,6 +97,17 @@ class App extends Component {
       roomId: this.state.roomId 
     })
   }
+ 
+  // function to create new chatroom
+  createRoom(name){
+    this.currentUser.createRoom({
+      name
+    })
+
+    .then(room => this.subscribeToRoom(room.id)
+    .catch(err => console.log('error with createRoom: ', err) ))
+  }
+
   render() {
     return (
       <div className="App">
@@ -103,9 +115,13 @@ class App extends Component {
           roomId={this.state.roomId}
           subscribeToRooms={this.subscribeToRoom}
           rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}/>
-        <MessageList messages={this.state.messages}/>
-        <SendMessageForm sendMessage={this.sendMessage}/>
-        <NewsRoomForm/>
+        <MessageList
+          roomId={this.state.roomId} 
+          messages={this.state.messages}/>
+        <SendMessageForm
+          disabled={!this.state.roomId} 
+          sendMessage={this.sendMessage}/>
+        <NewsRoomForm createRoom={this.createRoom}/>
       </div>
     );
   }
