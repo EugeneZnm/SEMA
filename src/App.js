@@ -15,6 +15,8 @@ class App extends Component {
       // storing messages in state
       messages: []
     }
+
+    this.sendMessage = this.sendMessage.bind(this)
   }
   
   componentDidMount(){
@@ -30,6 +32,8 @@ class App extends Component {
       currentUser.subscribeToRoom({
         roomId: 25025149,
         hooks: {
+
+          // event listener for new messages
           onNewMessage:message => {
              this.setState ({
               //  ... expands message array to fit in new array
@@ -40,12 +44,20 @@ class App extends Component {
       })
     })
   }
+
+  // access to current user object and calling the sendmessage method to send data to chatkit
+  sendMessage(text){
+    this.currentUser.sendMessage({
+      text,
+      roomId: 25025149 
+    })
+  }
   render() {
     return (
       <div className="App">
         <RoomList/>
         <MessageList messages={this.state.messages}/>
-        <SendMessageForm/>
+        <SendMessageForm sendMessage={this.sendMessage}/>
         <NewsRoomForm/>
       </div>
     );
